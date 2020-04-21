@@ -7,7 +7,10 @@ const app = express();
 require('dotenv').config();
 
 // import routes
+const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const categoryRoutes = require('./routes/category');
+const productRoutes = require('./routes/product');
 
 //start db connection
 mongoose
@@ -25,12 +28,22 @@ mongoose.connection.on('error', (err) => {
 // middleware
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(expressValidator());
 
 // routes middleware
+app.use('/api', authRoutes);
 app.use('/api', userRoutes);
+app.use('/api', categoryRoutes);
+app.use('/api', productRoutes);
+
+app.use((err, req, res, next) => {
+  console.log('err', err);
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).json({ error: 'invalid token...' });
+  }
+});
 
 const port = process.env.PORT || 8000;
 
