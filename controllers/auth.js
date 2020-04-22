@@ -32,7 +32,7 @@ exports.signin = (req, res) => {
     }
 
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
+      expiresIn: '1d',
     });
     //res.cookie('t', token, { expires: new Date() + 9999 });
     res.cookie('t', token, { expires: new Date(Date.now() + 9999) });
