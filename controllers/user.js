@@ -1,10 +1,10 @@
 const User = require('../models/user');
 
 exports.userById = (req, res, next, id) => {
-  User.findById(id).exec((err, user) => {
-    if (err || !user) {
+  User.findById(id).exec((error, user) => {
+    if (error || !user) {
       return res.status(400).json({
-        err: 'User not found',
+        error: 'User not found',
       });
     }
     req.profile = user;
@@ -25,10 +25,10 @@ exports.update = (req, res) => {
     { _id: req.profile._id },
     { $set: req.body },
     { new: true }, // return updated data
-    (err, user) => {
-      if (err) {
+    (error, user) => {
+      if (error) {
         return res.status(400).json({
-          err,
+          error,
         });
       }
       user.salt = undefined;
