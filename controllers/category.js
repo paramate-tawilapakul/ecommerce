@@ -57,12 +57,14 @@ exports.remove = (req, res) => {
 };
 
 exports.list = (req, res) => {
-  Category.find().exec((error, data) => {
-    if (error) {
-      return res.status(400).json({
-        error: errorHandler(error),
-      });
-    }
-    res.json(data);
-  });
+  Category.find()
+    .sort([['name', 'asc']])
+    .exec((error, data) => {
+      if (error) {
+        return res.status(400).json({
+          error: errorHandler(error),
+        });
+      }
+      res.json(data);
+    });
 };
