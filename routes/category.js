@@ -19,7 +19,7 @@ router.get(
   isAdmin,
   read
 );
-router.get('/categories', requireSignin, list);
+router.get('/categories', list);
 router.post('/category/create/:userId', requireSignin, isAuth, isAdmin, create);
 router.put(
   '/category/:categoryId/:userId',
